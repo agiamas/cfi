@@ -5,6 +5,9 @@
 
 #2,3
 class TreeTraversal
+  @lcFound = false
+  @rcFound = false
+
   def preOrder node
     if (node==nil) then
       return 0
@@ -34,6 +37,19 @@ class TreeTraversal
     treetr.postOrder node.getLeftChild
     treetr.postOrder node.getRightChild
     print "\n current node value(postorder):" + node.getValue.to_s
+  end
+
+  def findCommonAncestorPostOrder node1, node2, root
+    if(@lcFound=true && @rcFound=true) then print("found common ancestor post order " + root.getValue.to_s) end
+    if (root==nil) then
+      return 0
+    end;
+    if(root==node1) then @lcFound=true end
+    if(root==node2) then @rcFound=true end
+    treetr = TreeTraversal.new
+    treetr.postOrder root.getLeftChild
+    treetr.postOrder root.getRightChild
+    print "\n current node value(postorder):" + root.getValue.to_s
   end
 
   def findCommonAncestor (node1, node2, root)
@@ -124,3 +140,18 @@ treeTrPost.postOrder @tnroot
 #find common ancestor
 treeAnc = TreeTraversal.new
 treeAnc.findCommonAncestor leftChild, rightChild, @tnroot
+
+#find common ancestor without parent node
+root = TreeNode.new
+lc = TreeNode.new
+rc = TreeNode.new
+lgc = TreeNode.new
+root.setLeftChild lc
+root.setRightChild rc
+root.setValue 1
+lc.setValue 2
+rc.setValue 3
+lc.setLeftChild lgc
+lgc.setValue 4
+ treeAnc.findCommonAncestorPostOrder lc, rc, root
+
